@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 
 const uuid = Uuid();
 
-final formatter = DateFormat.yMd()
+final formatter = DateFormat.yMd();
 
 enum Category { food, travel, leisure, work }
 
