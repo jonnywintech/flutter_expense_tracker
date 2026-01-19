@@ -9,11 +9,13 @@ class NewExpense extends StatefulWidget {
 
 class _NewExpenseState extends State<NewExpense> {
   final _titleController = TextEditingController();
+  final _amountController = TextEditingController();
 
   // clean up memeory when modal is closed
   @override
   void dispose() {
     _titleController.dispose();
+    _amountController.dispose();
     super.dispose();
   }
 
@@ -31,15 +33,30 @@ class _NewExpenseState extends State<NewExpense> {
               icon: Icon(Icons.title),
             ),
           ),
-          Row(
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  print(_titleController.text);
-                },
-                child: Text('Save Expense'),
-              ),
-            ],
+          TextField(
+            controller: _amountController,
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(
+              alignLabelWithHint: true,
+              labelText: 'Amount',
+              icon: Icon(Icons.monetization_on),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextButton(onPressed: () {}, child: Text('Cancel')),
+                ElevatedButton(
+                  onPressed: () {
+                    print(_titleController.text);
+                    print(_amountController.text);
+                  },
+                  child: Text('Save Expense'),
+                ),
+              ],
+            ),
           ),
         ],
       ),
