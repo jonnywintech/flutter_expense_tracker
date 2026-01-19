@@ -41,14 +41,23 @@ class _NewExpenseState extends State<NewExpense> {
                   icon: Icon(Icons.title),
                 ),
               ),
-              TextField(
-                controller: _amountController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  alignLabelWithHint: true,
-                  labelText: 'Amount',
-                  icon: Icon(Icons.monetization_on),
-                ),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _amountController,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        alignLabelWithHint: true,
+                        labelText: 'Amount',
+                        icon: Icon(Icons.monetization_on),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: SizedBox(width: 16),
+                  ),
+                ],
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 16.0),
