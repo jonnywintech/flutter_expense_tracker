@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:expenses_tracker/models/expense.dart';
 
 final formatter = DateFormat.yMd();
 
@@ -13,6 +14,7 @@ class NewExpense extends StatefulWidget {
 class _NewExpenseState extends State<NewExpense> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
+  Category _selectedCategory = Category.leisure;
   DateTime? _selectedDate;
 
   // String get _formattedDate {
@@ -63,6 +65,7 @@ class _NewExpenseState extends State<NewExpense> {
                   icon: Icon(Icons.title),
                 ),
               ),
+              SizedBox(height: 16),
               Row(
                 children: [
                   Expanded(
@@ -96,11 +99,31 @@ class _NewExpenseState extends State<NewExpense> {
                   ),
                 ],
               ),
+              SizedBox(height: 16),
               Padding(
                 padding: const EdgeInsets.only(top: 16.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    DropdownButton(
+                      value: _selectedCategory,
+                      items: Category.values.map(
+                        (category) {
+                          return DropdownMenuItem(
+                            value:
+                                category, // bitno kada user selektuje ovaj value se selktuje u memoriji
+                            child: Text(
+                              category.name.toUpperCase(),
+                            ),
+                          );
+                        },
+                      ).toList(),
+                      onChanged: (onChanged) {
+                        setState(() {
+                          _selectedCategory = onChanged!;
+                        });
+                      },
+                    ),
                     TextButton(
                       onPressed: () {
                         Navigator.pop(context);
