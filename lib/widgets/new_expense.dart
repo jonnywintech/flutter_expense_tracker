@@ -35,6 +35,34 @@ class _NewExpenseState extends State<NewExpense> {
     });
   }
 
+  void _submitExpenseData() {
+    final enteredAmount = double.tryParse(_amountController.text);
+    final amountIsInvalid = enteredAmount == null || enteredAmount <= 0;
+    if (_titleController.text.trim().isEmpty ||
+        amountIsInvalid ||
+        _selectedDate == null) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Invalid Input'),
+
+          content: Text(
+            'Please make sure a valid title, amount, date and category was entered.',
+          ),
+          actions: [
+            TextButton(
+              child: Text('Ok'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+  }
+
   // clean up memeory when modal is closed
   @override
   void dispose() {
@@ -132,6 +160,7 @@ class _NewExpenseState extends State<NewExpense> {
                     ),
                     ElevatedButton(
                       onPressed: () {
+                        _submitExpenseData();
                         print(_titleController.text);
                         print(_amountController.text);
                       },
