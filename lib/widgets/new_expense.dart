@@ -71,6 +71,7 @@ class _NewExpenseState extends State<NewExpense> {
         category: _selectedCategory,
       ),
     );
+    Navigator.pop(context);
   }
 
   // clean up memeory when modal is closed
@@ -169,10 +170,7 @@ class _NewExpenseState extends State<NewExpense> {
                       child: Text('Cancel'),
                     ),
                     ElevatedButton(
-                      onPressed: () {
-                        _submitExpenseData();
-                        Navigator.pop(context);
-                      },
+                      onPressed: _submitExpenseData,
                       child: Text('Save Expense'),
                     ),
                   ],
