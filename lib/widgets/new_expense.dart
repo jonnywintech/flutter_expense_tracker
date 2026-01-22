@@ -5,7 +5,9 @@ import 'package:expenses_tracker/models/expense.dart';
 final formatter = DateFormat.yMd();
 
 class NewExpense extends StatefulWidget {
-  NewExpense({super.key});
+  NewExpense({super.key, required this.onAddExpense});
+
+  final void Function(Expense expense) onAddExpense;
 
   @override
   State<NewExpense> createState() => _NewExpenseState();
@@ -61,6 +63,14 @@ class _NewExpenseState extends State<NewExpense> {
       );
       return;
     }
+    widget.onAddExpense(
+      Expense(
+        title: _titleController.text,
+        amount: enteredAmount,
+        date: _selectedDate!,
+        category: _selectedCategory,
+      ),
+    );
   }
 
   // clean up memeory when modal is closed
@@ -161,8 +171,7 @@ class _NewExpenseState extends State<NewExpense> {
                     ElevatedButton(
                       onPressed: () {
                         _submitExpenseData();
-                        print(_titleController.text);
-                        print(_amountController.text);
+                        Navigator.pop(context);
                       },
                       child: Text('Save Expense'),
                     ),
