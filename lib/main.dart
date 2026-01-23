@@ -1,24 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:expenses_tracker/widgets/expenses.dart';
 
+var kColorScheme = ColorScheme.fromSeed(
+  seedColor: const Color.fromARGB(255, 4, 85, 151),
+);
+
 void main() {
   runApp(
     MaterialApp(
       theme: ThemeData().copyWith(
-        primaryColor: Color(Colors.blue.shade600.value),
-        textButtonTheme: TextButtonThemeData(
-          style: TextButton.styleFrom(
-            foregroundColor: Colors.white,
-            backgroundColor: Colors.blue.shade600,
-          ),
+        colorScheme: kColorScheme,
+        appBarTheme: AppBarTheme().copyWith(
+          backgroundColor: kColorScheme.onPrimaryContainer,
+          foregroundColor: kColorScheme.primaryContainer,
         ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            foregroundColor: Colors.white,
-            backgroundColor: Colors.blue.shade600,
-          ),
-        ),
-        scaffoldBackgroundColor: Colors.blue.shade100,
       ),
       home: Expenses(),
     ),
