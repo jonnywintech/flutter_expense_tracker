@@ -1,3 +1,4 @@
+import 'package:expenses_tracker/widgets/chart/chart.dart';
 import 'package:expenses_tracker/widgets/expenses_list/expenses_list.dart';
 import 'package:flutter/material.dart';
 import 'package:expenses_tracker/models/expense.dart';
@@ -48,9 +49,8 @@ class _ExpensesState extends State<Expenses> {
     /// clear stackbar previouse message
     ScaffoldMessenger.of(context).clearSnackBars();
 
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(
+    final snackBarMessenger = ScaffoldMessenger.of(context);
+    snackBarMessenger.showSnackBar(
       SnackBar(
         content: Text('Expense deleted.'),
         duration: Duration(seconds: 3),
@@ -64,6 +64,11 @@ class _ExpensesState extends State<Expenses> {
         ),
       ),
     );
+
+    // Close snackbar after 3 seconds
+    Future.delayed(Duration(seconds: 3), () {
+      snackBarMessenger.hideCurrentSnackBar();
+    });
   }
 
   @override
@@ -91,7 +96,7 @@ class _ExpensesState extends State<Expenses> {
       ),
       body: Column(
         children: [
-          Text('The chart'),
+          Chart(expenses: _registeredExpenses),
           Expanded(child: mainContent),
         ],
       ),
