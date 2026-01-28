@@ -46,7 +46,7 @@ class _NewExpenseState extends State<NewExpense> {
     if (_titleController.text.trim().isEmpty ||
         amountIsInvalid ||
         _selectedDate == null) {
-     if(Platform.isIOS){
+     if(!Platform.isIOS){
        showCupertinoDialog (
         context: context,
         builder: (context) => CupertinoAlertDialog(
@@ -84,7 +84,7 @@ class _NewExpenseState extends State<NewExpense> {
           ],
         ),
       );
-     },
+     }
       return;
     }
     widget.onAddExpense(
