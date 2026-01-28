@@ -84,102 +84,118 @@ class _NewExpenseState extends State<NewExpense> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height,
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.only(
-            top: 46,
-            left: 16,
-            right: 16,
-            bottom: MediaQuery.of(context).viewInsets.bottom + 16,
-          ),
-          child: Column(
-            children: [
-              TextField(
-                controller: _titleController,
-                maxLength: 50,
-                decoration: InputDecoration(
-                  labelText: 'Title',
-                  icon: Icon(Icons.title),
-                ),
+    return LayoutBuilder(
+      builder: (ctx, constraints) {
+        print(constraints.minHeight);
+        print(constraints.maxHeight);
+        print(constraints.minWidth);
+        print(constraints.maxWidth);
+
+        final width = constraints.maxWidth;
+
+        return SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.only(
+                top: 46,
+                left: 16,
+                right: 16,
+                bottom: MediaQuery.of(context).viewInsets.bottom + 16,
               ),
-              SizedBox(height: 16),
-              Row(
+              child: Column(
                 children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _amountController,
-                      keyboardType: TextInputType.number,
+                  if (width >= 600)
+                    Row(
+                      children: [],
+                    )
+                  else
+                    TextField(
+                      controller: _titleController,
+                      maxLength: 50,
                       decoration: InputDecoration(
-                        alignLabelWithHint: true,
-                        labelText: 'Amount',
-                        icon: Icon(Icons.monetization_on),
+                        labelText: 'Title',
+                        icon: Icon(Icons.title),
                       ),
                     ),
-                  ),
-                  SizedBox(width: 16),
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          _selectedDate == null
-                              ? 'No Date Chosen'
-                              : formatter.format(_selectedDate!),
+                  SizedBox(height: 16),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: _amountController,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            alignLabelWithHint: true,
+                            labelText: 'Amount',
+                            icon: Icon(Icons.monetization_on),
+                          ),
                         ),
-                        IconButton(
-                          onPressed: _presetDatePicker,
-                          icon: Icon(Icons.calendar_month),
+                      ),
+                      SizedBox(width: 16),
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              _selectedDate == null
+                                  ? 'No Date Chosen'
+                                  : formatter.format(_selectedDate!),
+                            ),
+                            IconButton(
+                              onPressed: _presetDatePicker,
+                              icon: Icon(Icons.calendar_month),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 16),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        DropdownButton(
+                          value: _selectedCategory,
+                          items: Category.values.map(
+                            (category) {
+                              return DropdownMenuItem(
+                                value:
+                                    category, // bitno kada user selektuje ovaj value se selktuje u memoriji
+                                child: Text(
+                                  category.name.toUpperCase(),
+                                ),
+                              );
+                            },
+                          ).toList(),
+                          onChanged: (onChanged) {
+                            setState(() {
+                              _selectedCategory = onChanged!;
+                            });
+                          },
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text('Cancel'),
+                        ),
+                        ElevatedButton(
+                          onPressed: _submitExpenseData,
+                          child: Text('Save Expense'),
                         ),
                       ],
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 16),
-              Padding(
-                padding: const EdgeInsets.only(top: 16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    DropdownButton(
-                      value: _selectedCategory,
-                      items: Category.values.map(
-                        (category) {
-                          return DropdownMenuItem(
-                            value:
-                                category, // bitno kada user selektuje ovaj value se selktuje u memoriji
-                            child: Text(
-                              category.name.toUpperCase(),
-                            ),
-                          );
-                        },
-                      ).toList(),
-                      onChanged: (onChanged) {
-                        setState(() {
-                          _selectedCategory = onChanged!;
-                        });
-                      },
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text('Cancel'),
-                    ),
-                    ElevatedButton(
-                      onPressed: _submitExpenseData,
-                      child: Text('Save Expense'),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
